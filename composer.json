@@ -1,0 +1,8 @@
+{
+  "name": "botble/impersonate",
+  "description": "Impersonate plugin",
+  "type": "package",
+  "require": {
+    "lab404/laravel-impersonate": "^1.3"
+  }
+}
