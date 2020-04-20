@@ -16,6 +16,8 @@ Impersonate is a plugin that allows you to authenticate as your users.
 
 ![Screenshot](https://raw.githubusercontent.com/botble/impersonate/master/public/images/screenshot-1.png)
 
+![Screenshot](https://raw.githubusercontent.com/botble/impersonate/master/public/images/screenshot-2.png)
+
 # Credits
 - https://github.com/404labfr/laravel-impersonate
 - [Laravel](https://github.com/laravel/framework) community
