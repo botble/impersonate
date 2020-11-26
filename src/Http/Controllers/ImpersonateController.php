@@ -34,7 +34,7 @@ class ImpersonateController extends BaseController
         $user = $this->userRepository->findOrFail($id);
         $request->user()->impersonate($user);
 
-        Helper::executeCommand('cache:clear');
+        Helper::clearCache();
 
         return redirect()->route('dashboard.index');
     }

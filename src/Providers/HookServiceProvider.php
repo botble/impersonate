@@ -13,9 +13,9 @@ class HookServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        add_filter(ACL_FILTER_USER_TABLE_ACTIONS, [$this, 'addImpersonateButton'], 120, 2);
+        add_filter(ACL_FILTER_USER_TABLE_ACTIONS, [$this, 'addImpersonateButton'], 12, 2);
 
-        add_filter(BASE_FILTER_TOP_HEADER_LAYOUT, [$this, 'addLeaveImpersonateButton'], 120, 1);
+        add_filter(BASE_FILTER_TOP_HEADER_LAYOUT, [$this, 'addLeaveImpersonateButton'], 12, 1);
     }
 
     /**

@@ -4,6 +4,6 @@
     "provider": "Botble\\Impersonate\\Providers\\ImpersonateServiceProvider",
     "author": "Sang Nguyen",
     "url": "https://sangnguyen.info",
-    "version": "5.3",
+    "version": "5.7",
     "description": "The description for plugin impersonate"
 }
