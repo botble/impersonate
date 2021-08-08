@@ -5,9 +5,10 @@ Purchase it here: [https://codecanyon.net/item/botble-cms-php-platform-based-on-
 Impersonate is a plugin that allows you to authenticate as your users.
 
 # Installation
-- Download and copy source code into `/platform/plugins/impersonate`.
+- Download and rename folder `impersonate-master` to `impersonate`.
+- Copy folder `impersonate` into `/platform/plugins`.
 - Run `composer update`
-- Go to Admin -> Plugins or run command `php artisan cms:plugin:activate impersonate` to activate this plugin.
+- Go to Admin -> Plugins then activate plugin Impersonate.
 
 # Usage
 - Go to Admin -> Platform Administration -> Users and use "Login as this user"
