@@ -47,6 +47,6 @@ class ImpersonateController extends BaseController
     {
         $request->user()->leaveImpersonation();
 
-        return redirect()->route('dashboard.index');
+        return redirect()->route('users.index');
     }
 }

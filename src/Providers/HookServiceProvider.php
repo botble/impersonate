@@ -15,7 +15,7 @@ class HookServiceProvider extends ServiceProvider
     {
         add_filter(ACL_FILTER_USER_TABLE_ACTIONS, [$this, 'addImpersonateButton'], 12, 2);
 
-        add_filter(BASE_FILTER_TOP_HEADER_LAYOUT, [$this, 'addLeaveImpersonateButton'], 12, 1);
+        add_filter(BASE_FILTER_TOP_HEADER_LAYOUT, [$this, 'addLeaveImpersonateButton'], 12);
     }
 
     /**
@@ -23,9 +23,9 @@ class HookServiceProvider extends ServiceProvider
      * @param string $actions
      * @return string
      */
-    public function addImpersonateButton($actions, User $user)
+    public function addImpersonateButton($actions, User $user): string
     {
-        $impersonate = null;
+        $impersonate = '';
         if (Auth::user()->hasPermission('users.impersonate')) {
             $impersonate = Html::tag(
                 'button',
@@ -33,7 +33,7 @@ class HookServiceProvider extends ServiceProvider
                 ['class' => 'btn btn-warning', 'disabled' => true]
             )->toHtml();
 
-            if (Auth::user()->id !== $user->id && app(ActivationInterface::class)->completed($user)) {
+            if (Auth::id() !== $user->id && app(ActivationInterface::class)->completed($user)) {
                 $impersonate = Html::link(
                     route('users.impersonate', $user->id),
                     trans('plugins/impersonate::impersonate.login_as_this_user'),

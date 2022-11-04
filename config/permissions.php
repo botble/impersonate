@@ -2,8 +2,8 @@
 
 return [
     [
-        'name'        => 'Impersonate',
-        'flag'        => 'users.impersonate',
+        'name' => 'Impersonate',
+        'flag' => 'users.impersonate',
         'parent_flag' => 'users.index',
     ],
 ];

@@ -4,6 +4,6 @@
     "provider": "Botble\\Impersonate\\Providers\\ImpersonateServiceProvider",
     "author": "Sang Nguyen",
     "url": "https://sangnguyen.info",
-    "version": "5.7",
-    "description": "The description for plugin impersonate"
+    "version": "1.1",
+    "description": "Impersonate makes it easy to authenticate as your users."
 }
