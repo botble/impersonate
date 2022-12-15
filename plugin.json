@@ -5,6 +5,6 @@
     "provider": "Botble\\Impersonate\\Providers\\ImpersonateServiceProvider",
     "author": "Sang Nguyen",
     "url": "https://sangnguyen.info",
-    "version": "1.1",
+    "version": "1.2.0",
     "description": "Impersonate makes it easy to authenticate as your users."
 }
