@@ -1,4 +1,5 @@
 {
+    "id": "botble/impersonate",
     "name": "Impersonate",
     "namespace": "Botble\\Impersonate\\",
     "provider": "Botble\\Impersonate\\Providers\\ImpersonateServiceProvider",
