@@ -8,33 +8,23 @@ use Botble\Impersonate\Exceptions\InvalidUserProvider;
 use Botble\Impersonate\Exceptions\MissingUserProvider;
 use Exception;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Collection;
 use InvalidArgumentException;
 
 class ImpersonateManager
 {
     const REMEMBER_PREFIX = 'remember_web';
 
-    /**
-     * @var Application $app
-     */
-    protected $app;
+    protected Application $app;
 
     public function __construct(Application $app)
     {
         $this->app = $app;
     }
 
-    /**
-     * @param int $id
-     * @return \Illuminate\Contracts\Auth\Authenticatable
-     * @throws MissingUserProvider
-     * @throws InvalidUserProvider
-     * @throws ModelNotFoundException
-     */
-    public function findUserById($id, $guardName = null)
+    public function findUserById(int $id, ?string $guardName = null): Authenticatable
     {
         if (empty($guardName)) {
             $guardName = $this->app['config']->get('auth.default.guard', 'web');
@@ -47,9 +37,8 @@ class ImpersonateManager
         }
 
         try {
-            /** @var UserProvider $userProvider */
             $userProvider = $this->app['auth']->createUserProvider($providerName);
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
             throw new InvalidUserProvider($guardName);
         }
 
@@ -70,49 +59,29 @@ class ImpersonateManager
         return session()->has($this->getSessionKey());
     }
 
-    /**
-     * @return  int|null
-     */
-    public function getImpersonatorId()
+    public function getImpersonatorId(): ?int
     {
         return session($this->getSessionKey());
     }
 
-    /**
-     * @return Authenticatable
-     * @throws InvalidUserProvider
-     * @throws MissingUserProvider
-     */
-    public function getImpersonator()
+    public function getImpersonator(): ?Authenticatable
     {
         $id = session($this->getSessionKey());
 
         return empty($id) ? null : $this->findUserById($id, $this->getImpersonatorGuardName());
     }
 
-    /**
-     * @return string|null
-     */
-    public function getImpersonatorGuardName()
+    public function getImpersonatorGuardName(): ?string
     {
         return session($this->getSessionGuard());
     }
 
-    /**
-     * @return string|null
-     */
-    public function getImpersonatorGuardUsingName()
+    public function getImpersonatorGuardUsingName(): ?string
     {
         return session($this->getSessionGuardUsing());
     }
 
-    /**
-     * @param \Illuminate\Contracts\Auth\Authenticatable $from
-     * @param \Illuminate\Contracts\Auth\Authenticatable $to
-     * @param string|null $guardName
-     * @return bool
-     */
-    public function take($from, $to, $guardName = null)
+    public function take(Authenticatable $from, Authenticatable $to, ?string $guardName = null): bool
     {
         $this->saveAuthCookieInSession();
 
@@ -158,7 +127,7 @@ class ImpersonateManager
         return true;
     }
 
-    public function clear()
+    public function clear(): void
     {
         session()->forget($this->getSessionKey());
         session()->forget($this->getSessionGuard());
@@ -189,7 +158,7 @@ class ImpersonateManager
     {
         try {
             $uri = route(config('plugins.impersonate.config.take_redirect_to'));
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
             $uri = config('plugins.impersonate.config.take_redirect_to');
         }
 
@@ -200,17 +169,14 @@ class ImpersonateManager
     {
         try {
             $uri = route(config('plugins.impersonate.config.leave_redirect_to'));
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
             $uri = config('plugins.impersonate.config.leave_redirect_to');
         }
 
         return $uri;
     }
 
-    /**
-     * @return int|string|null
-     */
-    public function getCurrentAuthGuardName()
+    public function getCurrentAuthGuardName(): int|string|null
     {
         $guards = array_keys(config('auth.guards'));
 
@@ -246,16 +212,11 @@ class ImpersonateManager
         session()->forget($session);
     }
 
-    /**
-     * @param array $values
-     * @param string $search
-     * @return \Illuminate\Support\Collection
-     */
-    protected function findByKeyInArray(array $values, string $search)
+    protected function findByKeyInArray(array $values, string $search): Collection
     {
         return collect($values ?? session()->all())
             ->filter(function ($val, $key) use ($search) {
-                return strpos($key, $search) !== false;
+                return str_contains($key, $search);
             });
     }
 }

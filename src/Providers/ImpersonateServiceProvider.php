@@ -9,7 +9,7 @@ use Botble\Impersonate\Services\ImpersonateManager;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
@@ -25,7 +25,7 @@ class ImpersonateServiceProvider extends ServiceProvider
             ->loadAndPublishConfigurations(['permissions', 'config'])
             ->loadAndPublishViews()
             ->loadAndPublishTranslations()
-            ->loadRoutes(['web']);
+            ->loadRoutes();
 
         $this->app->bind(ImpersonateManager::class, ImpersonateManager::class);
 
@@ -45,7 +45,7 @@ class ImpersonateServiceProvider extends ServiceProvider
                 return true;
             });
 
-            MacroableModels::addMacro(User::class, 'impersonate', function (Model $user, $guardName = null) {
+            MacroableModels::addMacro(User::class, 'impersonate', function (Authenticatable $user, ?string $guardName = null) {
                 return app(ImpersonateManager::class)->take($this, $user, $guardName);
             });
 
@@ -76,14 +76,8 @@ class ImpersonateServiceProvider extends ServiceProvider
         $this->registerAuthDriver();
     }
 
-    /**
-     * @return  void
-     */
-    protected function registerAuthDriver()
+    protected function registerAuthDriver(): void
     {
-        /**
-         * @var AuthManager $auth
-         */
         $auth = $this->app['auth'];
 
         $auth->extend('session', function (Application $app, $name, array $config) use ($auth) {

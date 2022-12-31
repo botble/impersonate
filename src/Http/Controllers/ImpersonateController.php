@@ -9,27 +9,14 @@ use Illuminate\Http\Request;
 
 class ImpersonateController extends BaseController
 {
-    /**
-     * @var UserInterface
-     */
-    protected $userRepository;
+    protected UserInterface $userRepository;
 
-    /**
-     * ImpersonateController constructor.
-     * @param UserInterface $userRepository
-     */
     public function __construct(UserInterface $userRepository)
     {
         $this->userRepository = $userRepository;
     }
 
-    /**
-     * @param int $id
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
-     */
-    public function getImpersonate($id, Request $request)
+    public function getImpersonate(int $id, Request $request)
     {
         $user = $this->userRepository->findOrFail($id);
         $request->user()->impersonate($user);
@@ -39,10 +26,6 @@ class ImpersonateController extends BaseController
         return redirect()->route('dashboard.index');
     }
 
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function leaveImpersonation(Request $request)
     {
         $request->user()->leaveImpersonation();

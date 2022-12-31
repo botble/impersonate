@@ -11,15 +11,9 @@ class LeaveImpersonation
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    /**
-     * @var Authenticatable
-     */
-    public $impersonator;
+    public Authenticatable $impersonator;
 
-    /**
-     * @var Authenticatable
-     */
-    public $impersonated;
+    public Authenticatable $impersonated;
 
     public function __construct(Authenticatable $impersonator, Authenticatable $impersonated)
     {

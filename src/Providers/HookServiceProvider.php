@@ -18,12 +18,7 @@ class HookServiceProvider extends ServiceProvider
         add_filter(BASE_FILTER_TOP_HEADER_LAYOUT, [$this, 'addLeaveImpersonateButton'], 12);
     }
 
-    /**
-     * @param User $user
-     * @param string $actions
-     * @return string
-     */
-    public function addImpersonateButton($actions, User $user): string
+    public function addImpersonateButton(?string $actions, User $user): string
     {
         $impersonate = '';
         if (Auth::user()->hasPermission('users.impersonate')) {
@@ -45,12 +40,7 @@ class HookServiceProvider extends ServiceProvider
         return $impersonate . $actions;
     }
 
-    /**
-     * @param string $html
-     * @return string
-     * @throws \Throwable
-     */
-    public function addLeaveImpersonateButton($html): string
+    public function addLeaveImpersonateButton(?string $html): string
     {
         return view('plugins/impersonate::leave-impersonate')->render() . $html;
     }
